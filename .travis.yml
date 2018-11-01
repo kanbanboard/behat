@@ -23,6 +23,8 @@ matrix:
       env: SYMFONY_VERSION='2.8.*'
     - php: 7.2
       env: SYMFONY_VERSION='^3.4'
+    - php: 7.2
+      env: DEPLOY='true'
 
 before_install:
   - phpenv config-rm xdebug.ini
@@ -52,4 +54,4 @@ deploy:
   skip_cleanup: true
   on:
     tags: true
-    php: 5.6
+    condition: "$DEPLOY = true"
