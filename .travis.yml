@@ -32,6 +32,7 @@ stages:
 jobs:
   include:
     - stage: test
+      script: /bin/false
       php: 5.6
       env: DEPENDENCIES='low'
     - php: 5.6
