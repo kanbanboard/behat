@@ -38,18 +38,20 @@ script:
   - phpunit
   - behat -fprogress --strict --tags '~@php-version,'`php php_version_tags.php`
 
-before_deploy:
-  - curl -LSs https://box-project.github.io/box2/installer.php | php
-  - export PATH=.:$PATH
-  - rm -Rf ./vendor
-  - composer install --no-dev -o
-  - box.phar build
 
-deploy:
-  provider: releases
-  api_key: $GITHUB_API_KEY
-  file: behat.phar
-  skip_cleanup: true
-  on:
-    tags: true
-    php: 5.6
+jobs:
+  include:
+    - stage: deploy
+      php: 7.2
+      script: skip
+      before_deploy:
+        - curl -LSs https://box-project.github.io/box2/installer.php | php
+        - export PATH=.:$PATH
+        - rm -Rf ./vendor
+        - composer install --no-dev -o
+        - box.phar build
+      deploy:
+        provider: releases
+        api_key: $GITHUB_API_KEY
+        file: behat.phar
+        skip_cleanup: true
