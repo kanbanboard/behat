@@ -39,6 +39,7 @@ jobs:
     - php: 7.2
       env: SYMFONY_VERSION='^3.4'
     - stage: deploy
+      if: tag IS present
       php: 7.2
       script: skip
       before_deploy:
