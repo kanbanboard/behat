@@ -8,10 +8,7 @@ cache:
   directories:
     - $HOME/.composer/cache
 
-branches:
-  only:
-    - master
-    - /v\d+\.\d+\.\d+/
+if: branch = master OR tag IS present
 
 before_install:
   - phpenv config-rm xdebug.ini
@@ -27,6 +24,10 @@ script:
   - phpunit
   - behat -fprogress --strict --tags '~@php-version,'`php php_version_tags.php`
 
+stages:
+  - name: deploy
+    if: tag IS present
+
 jobs:
   include:
     - stage: test
@@ -39,7 +40,6 @@ jobs:
     - php: 7.2
       env: SYMFONY_VERSION='^3.4'
     - stage: deploy
-      if: tag IS present
       php: 7.2
       before_script: skip
       script: skip
