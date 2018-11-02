@@ -49,7 +49,8 @@ jobs:
         - composer install --no-dev -o
         - box.phar build
       deploy:
-        tags: true
+        on:
+          tags: true
         provider: releases
         api_key: $GITHUB_API_KEY
         file: behat.phar
