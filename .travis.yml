@@ -25,6 +25,7 @@ script:
   - behat -fprogress --strict --tags '~@php-version,'`php php_version_tags.php`
 
 stages:
+  - test
   - name: deploy
     if: tag IS present
 
@@ -39,15 +40,18 @@ jobs:
       env: SYMFONY_VERSION='2.8.*'
     - php: 7.2
       env: SYMFONY_VERSION='^3.4'
+
     - stage: deploy
       php: 7.2
       before_script: skip
       script: skip
+
       before_deploy:
         - curl -LSs https://box-project.github.io/box2/installer.php | php
         - export PATH=.:$PATH
         - composer install --no-dev -o
         - box.phar build
+
       deploy:
         on:
           tags: true
