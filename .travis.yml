@@ -41,11 +41,11 @@ jobs:
     - stage: deploy
       if: tag IS present
       php: 7.2
+      before_script: skip
       script: skip
       before_deploy:
         - curl -LSs https://box-project.github.io/box2/installer.php | php
         - export PATH=.:$PATH
-        - rm -Rf ./vendor
         - composer install --no-dev -o
         - box.phar build
       deploy:
